@@ -9,7 +9,7 @@ class RegisterView(generics.CreateAPIView):
     """
     View to handle user registration.
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]  # Allow any user to register for []
-
