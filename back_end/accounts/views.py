@@ -31,6 +31,6 @@ class ProtectedView(APIView):
         Handle GET requests to the protected view.
         """
         response = {
-            'status': 'Request was permitted',
+            "status": "Request was permitted",
         }
         return Response(response)
