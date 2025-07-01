@@ -25,7 +25,7 @@ class AIGenerateRecipeView(APIView):
 
     def post(self, request):
         ingredients = request.body.decode('utf-8').split()
-        print(f"Received ingredients: {ingredients}")
+        # print(f"Received ingredients: {ingredients}")
 
         if not ingredients:
             return Response({"error": "No ingredients provided."}, status=status.HTTP_400_BAD_REQUEST)
@@ -44,7 +44,7 @@ class AIGenerateRecipeView(APIView):
             )
 
             recipe = response.choices[0].message.content
-            print(recipe)
+            # print(recipe)
             return Response({"recipe": recipe}, status=status.HTTP_200_OK)
 
         except Exception as e:

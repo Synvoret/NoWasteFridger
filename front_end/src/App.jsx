@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './assets/css/style.css'
 import Header from './components/Header'
 import Main from './components/Main'
+import Recipe from './components/Recipe'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import Register from './components/Register'
@@ -19,7 +20,8 @@ function App() {
         <BrowserRouter>
           <Header />
             <Routes>
-              <Route path="/" element={<Main />} />
+              {/* <Route path="/" element={<Main />} /> */}
+              <Route path="/" element={<Recipe />} />
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
               <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
