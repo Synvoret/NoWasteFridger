@@ -25,7 +25,6 @@ const Recipe = () => {
     }
   }
 
-  // Jeśli przepis istnieje, wyświetl go zamiast formularza
   if (recipe) {
     return (
       <div className="container">
@@ -39,7 +38,6 @@ const Recipe = () => {
               <button
                 className="btn btn-secondary"
                 onClick={() => {
-                  // Zresetuj stan, aby wrócić do formularza
                   setRecipe(null)
                   setIngredients('')
                   setErrors({})
@@ -54,7 +52,6 @@ const Recipe = () => {
     )
   }
 
-  // Domyślnie pokaż formularz
   return (
     <div className="container">
       <div className="row justify-content-center">
