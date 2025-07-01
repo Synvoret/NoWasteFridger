@@ -2,7 +2,7 @@ from django.urls import path, include
 from accounts import views as UserViews
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from nowastefridger.views import IngredientViewSet, RecipeViewSet
+from nowastefridger.views import IngredientViewSet, RecipeViewSet, AIGenerateRecipeView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -19,4 +19,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("protected-view/", UserViews.ProtectedView.as_view(), name="protected_view"),
     path("", include(router.urls)),
+    path("generate-recipe/", AIGenerateRecipeView.as_view(), name="generate_recipe"),
 ]
