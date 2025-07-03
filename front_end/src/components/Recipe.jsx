@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import client from '../api/client'
 
 const Recipe = () => {
   const [ingredients, setIngredients] = useState('')
@@ -9,17 +9,22 @@ const Recipe = () => {
 
   const handleRecipe = async (e) => {
     e.preventDefault()
+
+    // Validate ingredients input
+    if (!ingredients.trim()) {
+      setErrors({ ingredients: 'Please enter some ingredients.' })
+      return
+    }
     setLoading(true)
+    setRecipe(null)
+    setErrors({})
 
     try {
-      const { data } = await axios.post(
-        'http://127.0.0.1:8000/api/v1/generate-recipe/',
-        { ingredients }
-      )
+      const { data } = await client.post('/api/v1/generate-recipe/', { ingredients })
       setErrors({})
       setRecipe(data.recipe)
     } catch (error) {
-      setErrors(error.response?.data || { non_field_errors: ['Błąd serwera'] })
+      setErrors(error.response?.data || { non_field_errors: ['Server Error'] })
     } finally {
       setLoading(false)
     }
@@ -30,7 +35,7 @@ const Recipe = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 bg-light-dark p-5 rounded">
-            <h3 className="text-light text-center">Twój przepis</h3>
+            <h3 className="text-light text-center">Your recpie</h3>
             <pre className="bg-white p-4 rounded" style={{ whiteSpace: 'pre-wrap' }}>
               {recipe}
             </pre>
@@ -43,7 +48,7 @@ const Recipe = () => {
                   setErrors({})
                 }}
               >
-                Wprowadź nowe składniki
+                New ingredients
               </button>
             </div>
           </div>
@@ -56,13 +61,13 @@ const Recipe = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6 bg-light-dark p-5 rounded">
-          <h3 className="text-light text-center">Moje składniki</h3>
+          <h3 className="text-light text-center">My ingredients</h3>
           <form onSubmit={handleRecipe}>
             <div className="mb-3">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Wpisz składniki"
+                placeholder="enter ingredients"
                 value={ingredients}
                 onChange={e => setIngredients(e.target.value)}
                 disabled={loading}
@@ -84,7 +89,7 @@ const Recipe = () => {
                 className="btn btn-info"
                 disabled={loading}
               >
-                {loading ? 'Generowanie…' : 'Zrób przepis'}
+                {loading ? 'Generating...' : 'Make a recipe'}
               </button>
             </div>
           </form>

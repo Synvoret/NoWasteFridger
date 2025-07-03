@@ -29,7 +29,9 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS =[
+    '127.0.0.1',
     'nowastefridger.com'
+    'www.nowastefridger.com',
 ]
 
 
@@ -137,6 +139,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://nowastefridger.com",
+    "https://www.nowastefridger.com",
+    "http://nowastefridger.com",
+    "http://www.nowastefridger.com",
+    
 ]
 
 REST_FRAMEWORK = {

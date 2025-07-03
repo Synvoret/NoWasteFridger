@@ -24,27 +24,34 @@ class AIGenerateRecipeView(APIView):
         return Response({"message": "Use POST to generate a recipe."})
 
     def post(self, request):
-        ingredients = request.body.decode('utf-8').split()
-        # print(f"Received ingredients: {ingredients}")
+        data = request.data
+        ingredients = data.get('ingredients')
 
-        if not ingredients:
-            return Response({"error": "No ingredients provided."}, status=status.HTTP_400_BAD_REQUEST)
+        if isinstance(ingredients, str):
+            ingredients = [i.strip() for i in ingredients.split(',') if i.strip()]
 
-        prompt = f"Podaj przepis na danie, które zawiera (staraj się nie używać dodatkowych składników): {', '.join(ingredients)}."
+        if not isinstance(ingredients, list) or len(ingredients) == 0:
+            return Response(
+                {"error": "No ingredients provided. Please send a non-empty 'ingredients' list."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        prompt = (
+            f"Provide a recipe for a dish that includes "
+            f"(do not use any additional ingredients): {', '.join(ingredients)}."
+            f"(you may suggest spices)"
+        )
 
         try:
             client = OpenAI(api_key=settings.OPENAI_API_KEY)
-
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "Jesteś pomocnym kucharzem."},
+                    {"role": "system", "content": "You are a helpful cook."},
                     {"role": "user", "content": prompt}
                 ]
             )
-
             recipe = response.choices[0].message.content
-            # print(recipe)
             return Response({"recipe": recipe}, status=status.HTTP_200_OK)
 
         except Exception as e:
