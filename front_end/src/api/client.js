@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 20000,
   headers: {
@@ -14,5 +14,3 @@ client.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export default client;

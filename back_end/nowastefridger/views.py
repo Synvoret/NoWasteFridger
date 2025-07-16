@@ -40,6 +40,7 @@ class AIGenerateRecipeView(APIView):
             f"Provide a recipe for a dish that includes "
             f"(do not use any additional ingredients): {', '.join(ingredients)}."
             f"(you may suggest spices)"
+            f"(always give in two languages, first in Polish, second in Enlish.)"
         )
 
         try:
